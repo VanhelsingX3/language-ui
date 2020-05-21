@@ -32,3 +32,13 @@ export function deleteCategory(id: string): Promise<any>{
         .catch(error => resolve({successed:false}));
     });
 }
+
+export function getLanguageSpecifics(id: string): Promise<any>{
+    return new Promise<any>(resolve=>{   
+        axios.get(`${query}/categories/languages/specific/${id}`)
+        .then(result=>{        
+            resolve(result.data);
+        })
+        .catch(error => resolve([]));
+    });
+}

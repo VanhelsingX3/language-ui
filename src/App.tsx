@@ -15,6 +15,7 @@ const App: React.FC = () => (
           <Route path="/languages/new" exact component={CreateLanguage}/>
           <Route path="/languages/:id/edit" exact component={CreateLanguage}/>
           <Route path="/categories" exact component={Categories} />
+          <Route path="/categories/:id" exact component={Language}/>
       </Switch>
   </BrowserRouter>
   

@@ -1,4 +1,5 @@
 import React,{useState, useEffect} from "react";
+import {useParams} from "react-router-dom";
 
 import Header from "../components/header";
 import Footer from "../components/footer";
@@ -8,11 +9,15 @@ import Card from "../components/card";
 import {ILanguage} from "../interfaces/language";
 
 import {getLanguages} from "../services/languages";
+import {getLanguageSpecifics} from "../services/categories"; //filtro
 
 const Language: React.FC = () => { 
 
     const [languages,setLanguages] = useState([]);
     const [update,setUpdate] = useState(true);
+    const [updateL,setUpdateL] = useState(true);
+
+    const {id} = useParams();
 
     useEffect(()=>{
         if(update){
@@ -28,6 +33,17 @@ const Language: React.FC = () => {
           console.log("cleaned up");
         };
       }, []);
+
+      /********/
+
+      useEffect(()=>{
+        if(updateL){
+            getLanguageSpecifics(id).then( r=>{                
+                setUpdateL(false);
+                setLanguages(r.data);
+            });
+        }      
+    },[updateL]);
 
     return(
         <div>
@@ -56,7 +72,6 @@ const Language: React.FC = () => {
             <Footer></Footer>
         </div>
     );
-
 }
 
 export default Language;

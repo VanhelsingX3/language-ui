@@ -2,8 +2,9 @@ import React,{useState,useEffect} from "react";
 
 import {getCategoriesWLanguages, deleteCategory} from "../services/categories";
 import Modal from "./modal";
+import { Link } from "react-router-dom";
 
-const CategoryTable: React.FC = () => {
+const CategoryTable: React.FC= () => {
 
     const [categories,setCategories] = useState([]);
     const [updatedCategories,setUpdatedCategories] = useState(false);
@@ -24,7 +25,13 @@ const CategoryTable: React.FC = () => {
         console.log(event.target);
         setCategoryId(event.target.id);
         setShowmodal(true);
-    }      
+    }
+
+    function onNavigation(event:any){
+        console.log(event.target);
+        let id = setCategoryId(event.target.id);
+        return <Link to={`/categories/${id}`}></Link>
+    }
 
     function drop(){
 
@@ -56,7 +63,6 @@ const CategoryTable: React.FC = () => {
     /*********************** */
 
 
-
     useEffect(()=>{        
         if(!updatedCategories){
             getCategoriesWLanguages().then(r=>{                
@@ -86,6 +92,7 @@ const CategoryTable: React.FC = () => {
                     <tr>
                         <th scope="col">Id</th>
                         <th scope="col">Name</th>
+                        <th scope="col"></th> 
                         <th scope="col">Languages Setted</th>
                         <th scope="col"></th>                
                     </tr>
@@ -96,6 +103,14 @@ const CategoryTable: React.FC = () => {
                             <th scope="row">{data._id}</th>
                             <td>{data.name}</td>
                             <td>{data.l.length}</td>
+                            <td>
+                                <button 
+                                type="button" 
+                                className="btn btn-info" 
+                                onClick={onNavigation} 
+                                id={data._id}
+                                >GO</button>
+                            </td>
                             <td>
                                 <button 
                                 type="button" 
@@ -110,7 +125,6 @@ const CategoryTable: React.FC = () => {
                 </tbody>
             </table>
         </div>
-
         
     );
 }
